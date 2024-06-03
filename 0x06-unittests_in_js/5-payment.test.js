@@ -1,29 +1,31 @@
+const chai = require('chai');
+const expect = chai.expect;
+
 const sinon = require('sinon');
-const { expect } = require('chai');
 const sendPaymentRequestToApi = require('./5-payment');
 
 describe('sendPaymentRequestToApi', () => {
-  let bigBrother;
+  let consolespy;
 
   beforeEach(() => {
-    if (!bigBrother) {
-      bigBrother = sinon.spy(console);
-    }
+    consolespy = sinon.spy(console, 'log');
   });
-
   afterEach(() => {
-    bigBrother.log.resetHistory();
+    consolespy.restore();
   });
 
-  it('sendPaymentRequestToApi(100, 20) logs "The total is: 120" to the console', () => {
+  it('test the send Pyament Request with 100, 20', () => {
     sendPaymentRequestToApi(100, 20);
-    expect(bigBrother.log.calledWith('The total is: 120')).to.be.true;
-    expect(bigBrother.log.calledOnce).to.be.true;
+
+    expect(consolespy.calledWithExactly('The total is: 120')).to.be.true;
+    expect(consolespy.CalledOnce);
   });
 
-  it('sendPaymentRequestToApi(10, 10) logs "The total is: 20" to the console', () => {
+  it('test the send Pyament Request with 10, 10', () => {
     sendPaymentRequestToApi(10, 10);
-    expect(bigBrother.log.calledWith('The total is: 20')).to.be.true;
-    expect(bigBrother.log.calledOnce).to.be.true;
+
+    expect(consolespy.calledOnceWithExactly('The total is: 20')).to.be.true;
+    expect(consolespy.CalledOnce);
   });
+
 });
